@@ -8,7 +8,7 @@
   $ docker compose down
 
 
-# Bash scripts to bring up a cluster spark cluster
+# Bash scripts to bring up a spark cluster
   $ ./start-cluster.sh 5
   
   $ ./stop-cluster.sh
