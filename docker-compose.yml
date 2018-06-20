@@ -1,0 +1,43 @@
+version: '2.2'
+services:
+  master:
+#    image: vic.tpm.com/spark/custom-spark-master:2.2
+    image: arslanabbasi/spark-master:2.2
+#    image: p7hb/docker-spark
+  #  command:
+    environment:
+      _JAVA_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+      SPARK_MASTER_HOST: master
+      SPARK_MASTER_PORT: 7077
+      SPARK_MASTER_WEBUI_PORT: 8080
+    ports:
+      - 8080:8080
+  #  volumes:
+  #    spark-master
+    networks:
+      - spnet
+
+  worker:
+#    image: vic.tpm.com/spark/custom-spark-slave:2.2-2
+    image: arslanabbasi/spark-slave:2.2
+#    image: p7hb/docker-spark
+#    command: |
+#      sh -c "/usr/local/spark-2.2.0-bin-hadoop2.7/sbin/start-slave.sh spark://172.18.0.2:7077"
+    environment:
+      _JAVA_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+      MASTER_CTR: master
+      MASTER_PORT: 7077
+      SPARK_WORKER_WEBUI_PORT: 8081
+    networks:
+      - spnet
+    depends_on:
+      - master
+
+#volumes:
+#  spark-master:
+#    driver: vsphere
+#    driver_opts:
+#      capacity: 10GB
+
+networks:
+  spnet:
